@@ -1,0 +1,24 @@
+{
+  "name": "pomodoro-timer",
+  "version": "1.0.0",
+  "description": "Timer to stay focused on studying and maximize productivity",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BryanFonseca/pomodoro-timer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BryanFonseca/pomodoro-timer/issues"
+  },
+  "homepage": "https://github.com/BryanFonseca/pomodoro-timer#readme",
+  "dependencies": {
+    "parcel": "^2.2.1"
+  }
+}
