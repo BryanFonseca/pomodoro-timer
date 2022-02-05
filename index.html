@@ -3,9 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="src/css/style.css">
     <script type="module" src="src/js/app.js"></script>
   </head>
   <body>
-    Project Start
+    <div class="info">
+      1 pom = 25 min work + 5 min break
+    </div>
+    <form action="">
+      <label for="time">Session Time</label>
+      <select id="time" name="time">
+        <option value="1hr">1 hr</option>
+        <option value="2hr">2 hr</option>
+        <option value="3hr">3 hr</option>
+        <option value="4hr">4 hr</option>
+      </select>
+      <input type="submit">
+    </form>
+    <div class="timer-container">
+      <div class="time-control-buttons">
+	<button>Stop</button>
+	<button>Pause</button>
+      </div>
+      <div class="pomodoro-count">
+	1 / 4
+      </div>
+      <div class="time">
+	24:37
+      </div>
+    </div>
   </body>
 </html>
