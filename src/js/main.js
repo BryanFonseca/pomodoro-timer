@@ -1,19 +1,29 @@
-// no architectural pattern used since the proyect is quite simple
 class App {
   #form;
   #timeSelect;
+  #initialMenuEl;
   #timer;
+  #timerContainerEl;
   constructor() {
-    this.#form = document.querySelector("form");
-    this.#timeSelect = document.querySelector("select");
-    this.#timer = new PomodoroTimer();
+    this.#form = document.querySelector(".time-selection-form");
+    this.#timeSelect = document.querySelector(".time-select");
+    this.#initialMenuEl = document.querySelector('.initial-menu');
+    this.#timerContainerEl = document.querySelector('.timer-container');
+    this.#timer = new PomodoroTimer({
+      onStop: this.onStopPomodoro.bind(this),
+    });
 
     this.#form.addEventListener("submit", this.startPomodoro.bind(this));
   }
   startPomodoro(e) {
     e.preventDefault();
+    this.#initialMenuEl.classList.add('initial-menu--hidden');
     const selectedTime = Number.parseInt(this.#timeSelect.value);
     this.#timer.start(selectedTime);
+  }
+
+  onStopPomodoro(){
+    this.#initialMenuEl.classList.remove('initial-menu--hidden');
   }
 }
 
@@ -22,9 +32,15 @@ class PomodoroTimer {
   #breakTime;
   #timerID;
   #timerEl;
-  #pomodoros;
+  #currentPomodoro;
+  #initialPomodoro;
+  #callbacks;
 
-  constructor() {
+  constructor(callbacks) {
+    if(callbacks){
+      this.#callbacks = callbacks;
+    }
+
     this.#timerEl = document.querySelector(".timer-container");
     this.#timerEl
       .querySelector(".timer-stop")
@@ -37,15 +53,19 @@ class PomodoroTimer {
   }
 
   start(time) {
-    this.#pomodoros = 2 * time;
+//     this.#stop();
+    this.#initialPomodoro = this.#currentPomodoro = 2 * time;
+    this.#timerEl.querySelector(".pomodoro-count").textContent = `1 / ${this.#initialPomodoro}`;
     this.#startPomodoro();
   }
 
   #startPomodoro() {
-    if (!this.#pomodoros) return console.log("finished all pomodoros");
+    if (!this.#currentPomodoro) return console.log("finished all pomodoros");
 
+    const pomodoroFraction = `${this.#initialPomodoro - (this.#currentPomodoro - 1)} / ${this.#initialPomodoro}`;
+    this.#timerEl.querySelector(".pomodoro-count").textContent = pomodoroFraction;
     this.#resetPomodoroTimes();
-    this.#pomodoros--;
+    this.#currentPomodoro--;
     this.#startTicking();
   }
 
@@ -57,8 +77,9 @@ class PomodoroTimer {
   }
 
   #resetPomodoroTimes() {
-    this.#workTime = 15;
-    this.#breakTime = 3;
+    this.#workTime = 1500;
+    this.#breakTime = 300;
+    this.#updateTimerEl(this.#workTime);
   }
 
   #startTicking() {
@@ -69,6 +90,10 @@ class PomodoroTimer {
   #stop = () => {
     // reset time in GUI to 25:00
     // reset fraction of pomodoros completed
+
+    if(this.#callbacks.onStop){
+      this.#callbacks.onStop();
+    }
 
     console.log("forced stop!");
     clearInterval(this.#timerID);
@@ -125,10 +150,10 @@ class PomodoroTimer {
   #updateTimerEl(time) {
     //convert seconds to clock notation
     const clockTime = this.#convertToClockNotation(time);
-    this.#timerEl.querySelector('.time').textContent = clockTime;
+    this.#timerEl.querySelector(".time").textContent = clockTime;
   }
-  
-  #convertToClockNotation(seconds){
+
+  #convertToClockNotation(seconds) {
     const min = `${Number.parseInt(seconds / 60)}`.padStart(2, 0);
     const sec = `${seconds % 60}`.padStart(2, 0);
     const time = `${min}:${sec}`;
@@ -137,3 +162,7 @@ class PomodoroTimer {
 }
 
 new App();
+
+// cuando terminen todos los pomodoros:
+// el botón stop podría cambiar a reset y volver al menú inicial
+// el botón pause se desactivaría

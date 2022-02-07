@@ -7,19 +7,21 @@
     <script type="module" src="./js/main.js"></script>
   </head>
   <body>
-    <div class="info">
-      1 pom = 25 min work + 5 min break
+    <div class="initial-menu">
+      <div class="info">
+	1 pom = 25 min work + 5 min break
+      </div>
+      <form class="time-selection-form" action="">
+	<label for="time">Session Time</label>
+	<select class="time-select" id="time" name="time">
+	  <option value="1hr">1 hr</option>
+	  <option value="2hr">2 hr</option>
+	  <option value="3hr">3 hr</option>
+	  <option value="4hr">4 hr</option>
+	</select>
+	<input type="submit" value="Begin">
+      </form>
     </div>
-    <form action="">
-      <label for="time">Session Time</label>
-      <select id="time" name="time">
-        <option value="1hr">1 hr</option>
-        <option value="2hr">2 hr</option>
-        <option value="3hr">3 hr</option>
-        <option value="4hr">4 hr</option>
-      </select>
-      <input type="submit" value="Begin">
-    </form>
     <div class="timer-container">
       <div class="time-control-buttons">
 	<button class="timer-stop">Stop</button>

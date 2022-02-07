@@ -1,3 +1,42 @@
+*, *::after, *::before{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  font-family: sans-serif;
+}
+
 body{
-  background-color: red;
+  background-color: white;
+}
+
+.initial-menu, .timer-container{
+  transition: opacity .5s;
+}
+
+.info{
+  background-color: #999;
+}
+
+.time-selection-form{
+  background-color: #bbb;
+}
+
+.initial-menu{
+  opacity: 100%;
+}
+
+.initial-menu--hidden{
+  opacity: 0%;
+}
+
+.timer-container{
+  background-color: #ddd;
+  opacity: 100%;
+}
+
+.timer-container--hidden{
+  opacity: 0%;
 }
