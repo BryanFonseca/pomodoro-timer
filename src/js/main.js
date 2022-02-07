@@ -1,4 +1,4 @@
-// no se usará MVC porque el proyecto es relativamente sencillo
+// no architectural pattern used since the proyect is quite simple
 class App {
   #form;
   #timeSelect;
@@ -6,14 +6,14 @@ class App {
   constructor() {
     this.#form = document.querySelector("form");
     this.#timeSelect = document.querySelector("select");
+    this.#timer = new PomodoroTimer();
 
     this.#form.addEventListener("submit", this.startPomodoro.bind(this));
   }
   startPomodoro(e) {
     e.preventDefault();
     const selectedTime = Number.parseInt(this.#timeSelect.value);
-    this.#timer = new PomodoroTimer(selectedTime);
-    this.#timer.start();
+    this.#timer.start(selectedTime);
   }
 }
 
@@ -24,16 +24,20 @@ class PomodoroTimer {
   #timerEl;
   #pomodoros;
 
-  constructor(time) {
+  constructor() {
     this.#timerEl = document.querySelector(".timer-container");
-    this.#timerEl.querySelector('.timer-stop').addEventListener('click', this.#stop.bind(this));
-    this.#timerEl.querySelector('.timer-pause').addEventListener('click', this.#pause);
-    this.#pomodoros = 2 * time;
+    this.#timerEl
+      .querySelector(".timer-stop")
+      .addEventListener("click", this.#stop);
+    this.#timerEl
+      .querySelector(".timer-pause")
+      .addEventListener("click", this.#pause);
 
     //1 pom = 30 min = 1800 seg
   }
 
-  start() {
+  start(time) {
+    this.#pomodoros = 2 * time;
     this.#startPomodoro();
   }
 
@@ -46,60 +50,90 @@ class PomodoroTimer {
   }
 
   #finishPomodoro() {
+    // update pomodoros completed e.g. from 1/4 -> 2/4
     console.log("terminó uno");
     clearInterval(this.#timerID);
     this.#startPomodoro();
   }
 
   #resetPomodoroTimes() {
-    this.#workTime = 1500;
-    this.#breakTime = 300;
+    this.#workTime = 15;
+    this.#breakTime = 3;
   }
 
   #startTicking() {
-    this.#timerID = setInterval(this.tick, 1);
+    this.tick();
+    this.#timerID = setInterval(this.tick, 1000);
   }
 
-  #stop(){
-    console.log('forced stop!');
+  #stop = () => {
+    // reset time in GUI to 25:00
+    // reset fraction of pomodoros completed
+
+    console.log("forced stop!");
     clearInterval(this.#timerID);
     this.#resetPomodoroTimes();
 
     // cuando se para el timer de manera forzosa debería mostrarse nuevamente el formulario para elegir tiempo
     // usar el patron de ballbacks
-  }
+  };
 
   #pause = () => {
     clearInterval(this.#timerID);
 
-    this.#timerEl.querySelector('.timer-pause').removeEventListener('click', this.#pause);
-    this.#timerEl.querySelector('.timer-pause').addEventListener('click', this.#resume);
-  }
+    this.#timerEl
+      .querySelector(".timer-pause")
+      .removeEventListener("click", this.#pause);
+    this.#timerEl
+      .querySelector(".timer-pause")
+      .addEventListener("click", this.#resume);
+  };
 
   #resume = () => {
-    this.#timerID = setInterval(this.tick, 1);
+    this.#timerID = setInterval(this.tick, 1000);
 
-    this.#timerEl.querySelector('.timer-pause').removeEventListener('click', this.#resume);
-    this.#timerEl.querySelector('.timer-pause').addEventListener('click', this.#pause);
-  }
+    this.#timerEl
+      .querySelector(".timer-pause")
+      .removeEventListener("click", this.#resume);
+    this.#timerEl
+      .querySelector(".timer-pause")
+      .addEventListener("click", this.#pause);
+  };
 
   //this is automatically set to instance and method is too since...
   tick = () => {
-    if (this.#workTime > 1) {
+    //update timer in GUI
+
+    if (this.#workTime > 0) {
+      this.#updateTimerEl(this.#workTime);
       this.#workTime--;
       console.log(this.#workTime);
       return;
     }
 
-    if (this.#breakTime <= 0) {
+    if (this.#breakTime < 0) {
       console.log("finished break time");
       this.#finishPomodoro();
       return;
     }
 
+    this.#updateTimerEl(this.#breakTime);
     this.#breakTime--;
     console.log(this.#breakTime);
   };
+
+  #updateTimerEl(time) {
+    //convert seconds to clock notation
+    const clockTime = this.#convertToClockNotation(time);
+    this.#timerEl.querySelector('.time').textContent = clockTime;
+  }
+  
+  #convertToClockNotation(seconds){
+    const min = `${Number.parseInt(seconds / 60)}`.padStart(2, 0);
+    const sec = `${seconds % 60}`.padStart(2, 0);
+    const time = `${min}:${sec}`;
+    return time;
+  }
 }
 
 new App();
