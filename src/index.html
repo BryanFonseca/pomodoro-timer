@@ -3,35 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <title>Pomodoro Timer</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
     <script type="module" src="./js/main.js"></script>
   </head>
   <body>
     <div class="initial-menu">
-      <div class="info">
+      <!--
+	<div class="info">
 	1 pom = 25 min work + 5 min break
-      </div>
+	</div>
+      -->
       <form class="time-selection-form" action="">
-	<label for="time">Session Time</label>
-	<select class="time-select" id="time" name="time">
-	  <option value="1hr">1 hr</option>
-	  <option value="2hr">2 hr</option>
-	  <option value="3hr">3 hr</option>
-	  <option value="4hr">4 hr</option>
-	</select>
-	<input type="submit" value="Begin">
+        <div class="time-selection-form-top">
+          <label for="time">Session Time</label>
+          <select class="time-select" id="time" name="time">
+            <option value="1hr">1 hr</option>
+            <option value="2hr">2 hr</option>
+            <option value="3hr">3 hr</option>
+            <option value="4hr">4 hr</option>
+          </select>
+        </div>
+        <input class="begin-button" type="submit" value="Begin" />
       </form>
     </div>
     <div class="timer-container">
       <div class="time-control-buttons">
-	<button class="timer-stop">Stop</button>
-	<button class="timer-pause">Pause</button>
+        <button class="timer-stop">Stop</button>
+        <button class="timer-pause">Pause</button>
       </div>
-      <div class="pomodoro-count">
-	1 / 4
-      </div>
+      <div class="pomodoro-count">1 / 4</div>
       <div class="time">
-	24:37
+        <span class="time-text"> 24:37 </span>
+        <div class="time-progress"></div>
       </div>
     </div>
   </body>

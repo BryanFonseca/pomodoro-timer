@@ -5,15 +5,21 @@
 }
 
 :root{
-  font-family: sans-serif;
+  font-family: 'ubuntu', sans-serif;
+  color: #222;
+}
+
+:root * {
+  color: inherit;
 }
 
 body{
-  background-color: white;
+  background-color: #ddd;
+  height: 100vh;
 }
 
 .initial-menu, .timer-container{
-  transition: opacity .5s;
+  transition: opacity .4s;
 }
 
 .info{
@@ -25,7 +31,50 @@ body{
 }
 
 .initial-menu{
+  z-index: 5;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   opacity: 100%;
+}
+
+.time-selection-form{
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5em;
+  padding: 0.7em 1em;
+  border-radius: 0.3em;
+
+  background: linear-gradient(to right, #F37335, #FDC830); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: white;
+}
+
+.time-selection-form-top{
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.begin-button{
+  font-size: 1.1rem;
+  padding: 0.2em 0.4em;
+}
+
+.begin-button:hover{
+  cursor: pointer;
+}
+
+.time-selection-form select{
+  font-size: 1rem;
+  border-radius: 0.4em;
+  padding: 0.15em 0.3em;
+}
+
+.time-selection-form select:hover{
+  cursor: pointer;
 }
 
 .initial-menu--hidden{
@@ -33,10 +82,27 @@ body{
 }
 
 .timer-container{
+  z-index: 1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #ddd;
   opacity: 100%;
 }
 
 .timer-container--hidden{
   opacity: 0%;
+}
+
+.time{
+  font-size: 15rem;
+}
+
+.time-progress{
+  height: 0.15em;
+  background-color: #333;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform .1s;
 }
