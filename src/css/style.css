@@ -11,6 +11,7 @@
 
 :root * {
   color: inherit;
+  font-family: inherit;
 }
 
 body{
@@ -60,21 +61,15 @@ body{
 
 .begin-button{
   font-size: 1.1rem;
-  padding: 0.2em 0.4em;
-}
-
-.begin-button:hover{
-  cursor: pointer;
+  padding: 0.45em 1.2em;
+  text-transform: uppercase;
+/*   border: none; */
+/*   font-weight: bold; */
 }
 
 .time-selection-form select{
   font-size: 1rem;
-  border-radius: 0.4em;
   padding: 0.15em 0.3em;
-}
-
-.time-selection-form select:hover{
-  cursor: pointer;
 }
 
 .initial-menu--hidden{
@@ -105,4 +100,34 @@ body{
   transform: scaleX(1);
   transform-origin: left;
   transition: transform .1s;
+}
+
+ion-icon{
+  font-size: 2rem;
+}
+
+.timer-container button{
+  border: none;
+  margin-right: 1em;
+  border-radius: 50%;
+  padding: 0.3em;
+/*   background-color: transparent; */
+}
+
+.timer-container-top{
+  display: flex;
+  justify-content: space-between;
+}
+
+button:hover, select:hover{
+  cursor: pointer;
+}
+
+.pomodoro-count{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  font-size: 1.4rem;
+  padding: 0.1em 0.5em;
+  border-radius: 10em;
 }

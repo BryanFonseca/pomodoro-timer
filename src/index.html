@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pomodoro Timer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,19 +30,33 @@
             <option value="4hr">4 hr</option>
           </select>
         </div>
-        <input class="begin-button" type="submit" value="Begin" />
+        <button class="begin-button">Begin</button>
       </form>
     </div>
     <div class="timer-container">
-      <div class="time-control-buttons">
-        <button class="timer-stop">Stop</button>
-        <button class="timer-pause">Pause</button>
+      <div class="timer-container-top">
+        <div class="time-control-buttons">
+          <button class="timer-stop">
+            <ion-icon name="stop"></ion-icon>
+          </button>
+          <button class="timer-pause">
+            <ion-icon name="pause"></ion-icon>
+          </button>
+        </div>
+        <div class="pomodoro-count">1 / 4</div>
       </div>
-      <div class="pomodoro-count">1 / 4</div>
       <div class="time">
         <span class="time-text"> 24:37 </span>
         <div class="time-progress"></div>
       </div>
     </div>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>

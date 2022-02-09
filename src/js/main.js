@@ -27,28 +27,28 @@ class App {
   }
 
   onStopPomodoro() {
-//     this.#initialMenuEl.classList.remove("initial-menu--hidden");
+    //     this.#initialMenuEl.classList.remove("initial-menu--hidden");
     this.#showElement(this.#initialMenuEl, 0.5);
     this.#hideElement(this.#timerContainerEl, 0);
-/*     this.#initialMenuEl.style.display = 'block';
+    /*     this.#initialMenuEl.style.display = 'block';
     this.#initialMenuEl.style.opacity = '100%'; */
   }
   #hideElement(el, s) {
     //temporal, mirar video de jonas
-    el.style.transitionDuration= `${s}s`;
-    el.style.opacity = '0%';
+    el.style.transitionDuration = `${s}s`;
+    el.style.opacity = "0%";
     new Promise(function (resolve) {
       setTimeout(resolve, s * 1000);
     }).then(() => (el.style.display = "none"));
   }
 
-  #showElement(el, s){
-    el.style.display = 'block';
+  #showElement(el, s) {
+    el.style.display = "block";
     el.style.transitionDuration = `${s}s`;
-    new Promise(function(resolve){
+    new Promise(function (resolve) {
       setTimeout(resolve, 0);
     }).then(() => {
-      el.style.opacity = '100%';
+      el.style.opacity = "100%";
     });
   }
 }
@@ -136,6 +136,12 @@ class PomodoroTimer {
   };
 
   #pause = () => {
+    //change button to play
+
+    this.#timerEl.querySelector(".timer-pause").innerHTML = `
+      <ion-icon name="play"></ion-icon>
+    `;
+
     clearInterval(this.#timerID);
 
     this.#timerEl
@@ -147,6 +153,10 @@ class PomodoroTimer {
   };
 
   #resume = () => {
+    this.#timerEl.querySelector(".timer-pause").innerHTML = `
+      <ion-icon name="pause"></ion-icon>
+    `;
+
     this.#timerID = setInterval(this.tick, 1000);
 
     this.#timerEl
@@ -166,32 +176,34 @@ class PomodoroTimer {
       this.#updateTimerEl(this.#workTime);
       this.#workTime--;
 
-/*       console.log(this.#workTime); */
+      /*       console.log(this.#workTime); */
       return;
     }
 
     if (this.#breakTime < 0) {
-/*       console.log("finished break time"); */
+      /*       console.log("finished break time"); */
       this.#finishPomodoro();
       return;
     }
 
     this.#updateTimerEl(this.#breakTime);
     this.#breakTime--;
-/*     console.log(this.#breakTime); */
+    /*     console.log(this.#breakTime); */
   };
 
-  #updateTimeProgressBar(){
+  #updateTimeProgressBar() {
     // gets called every tick
     let percentage;
-    if(this.#workTime){
-      percentage = (this.#workTime / 1500);
-    }else{
-      percentage = (this.#breakTime / 300);
+    if (this.#workTime) {
+      percentage = this.#workTime / 1500;
+    } else {
+      percentage = this.#breakTime / 300;
     }
     percentage = percentage.toFixed(4);
     console.log(percentage);
-    this.#timerEl.querySelector('.time-progress').style.transform = `scaleX(${percentage})`;
+    this.#timerEl.querySelector(
+      ".time-progress"
+    ).style.transform = `scaleX(${percentage})`;
   }
 
   #updateTimerEl(time) {
