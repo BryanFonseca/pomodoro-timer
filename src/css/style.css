@@ -1,12 +1,14 @@
-*, *::after, *::before{
+*,
+*::after,
+*::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-:root{
-  font-family: 'ubuntu', sans-serif;
-  color: #222;
+:root {
+  font-family: "ubuntu", sans-serif;
+  color: #212529;
 }
 
 :root * {
@@ -14,24 +16,47 @@
   font-family: inherit;
 }
 
-body{
-  background-color: #ddd;
+body {
   height: 100vh;
+  transition: background 10s;
 }
 
-.initial-menu, .timer-container{
-  transition: opacity .4s;
+.work-gradient,
+.break-gradient {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  transition: opacity 1s;
 }
 
-.info{
+.work-gradient {
+  z-index: 4;
+  /* another cool gradient */
+  background: linear-gradient(to right, #348f50, #56b4d3);
+  background: linear-gradient(to right, #11998e, #38ef7d);
+}
+
+.break-gradient {
+  z-index: 3;
+  /* another cool gradient */
+  background: linear-gradient(to right, #ff5f6d, #ffc371);
+  background: linear-gradient(to right, #ff4b1f, #ff9068);
+}
+
+.initial-menu,
+.timer-container {
+  transition: opacity 0.4s;
+}
+
+.info {
   background-color: #999;
 }
 
-.time-selection-form{
+.time-selection-form {
   background-color: #bbb;
 }
 
-.initial-menu{
+.initial-menu {
   z-index: 5;
   position: fixed;
   top: 50%;
@@ -40,90 +65,94 @@ body{
   opacity: 100%;
 }
 
-.time-selection-form{
+.time-selection-form {
   font-size: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .5em;
+  gap: 0.5em;
   padding: 0.7em 1em;
   border-radius: 0.3em;
 
-  background: linear-gradient(to right, #F37335, #FDC830); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #f37335, #fdc830);
   background-color: white;
 }
 
-.time-selection-form-top{
+.time-selection-form-top {
   display: flex;
   align-items: center;
   gap: 0.6em;
 }
 
-.begin-button{
+.begin-button {
   font-size: 1.1rem;
   padding: 0.45em 1.2em;
   text-transform: uppercase;
-/*   border: none; */
-/*   font-weight: bold; */
 }
 
-.time-selection-form select{
+.time-selection-form select {
   font-size: 1rem;
   padding: 0.15em 0.3em;
 }
 
-.initial-menu--hidden{
+.initial-menu--hidden {
   opacity: 0%;
 }
 
-.timer-container{
-  z-index: 1;
+/* TODO: structure the code in such a way that this selector defines the ems value so that the whole component can be easily resized */
+.timer-container {
+  z-index: 4;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ddd;
   opacity: 100%;
 }
 
-.timer-container--hidden{
+.timer-container--hidden {
   opacity: 0%;
 }
 
-.time{
+.time {
   font-size: 15rem;
 }
 
-.time-progress{
+.time-progress {
   height: 0.15em;
-  background-color: #333;
+  background-color: #212529;
   transform: scaleX(1);
   transform-origin: left;
-  transition: transform .1s;
+  transition: transform 0.1s;
 }
 
-ion-icon{
-  font-size: 2rem;
+ion-icon {
+  font-size: 1.8rem;
 }
 
-.timer-container button{
+.timer-container button {
   border: none;
   margin-right: 1em;
   border-radius: 50%;
-  padding: 0.3em;
-/*   background-color: transparent; */
+  padding: 0.35em;
 }
 
-.timer-container-top{
+.time-control-buttons > button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer-container-top {
   display: flex;
   justify-content: space-between;
 }
 
-button:hover, select:hover{
+button:hover,
+select:hover {
   cursor: pointer;
 }
 
-.pomodoro-count{
+.pomodoro-count {
   display: flex;
   align-items: center;
   background-color: white;

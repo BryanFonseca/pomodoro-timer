@@ -11,6 +11,8 @@ class App {
     this.#timerContainerEl = document.querySelector(".timer-container");
     this.#timer = new PomodoroTimer({
       onStop: this.onStopPomodoro.bind(this),
+      onWorkStart: this.changeToWork.bind(this),
+      onBreakStart: this.changeToBreak.bind(this),
     });
 
     this.#form.addEventListener("submit", this.startPomodoro.bind(this));
@@ -51,6 +53,20 @@ class App {
       el.style.opacity = "100%";
     });
   }
+
+  #showGradient(gradientName = "work") {
+    document
+      .querySelectorAll('[class$="-gradient"]')
+      .forEach((el) => (el.style.opacity = "0"));
+    document.querySelector(`.${gradientName}-gradient`).style.opacity = "1";
+  }
+
+  changeToWork(){
+    this.#showGradient('work');
+  }
+  changeToBreak(){
+    this.#showGradient('break');
+  }
 }
 
 class PomodoroTimer {
@@ -61,6 +77,7 @@ class PomodoroTimer {
   #currentPomodoro;
   #initialPomodoro;
   #callbacks;
+  #currentMode;
 
   constructor(callbacks) {
     if (callbacks) {
@@ -74,6 +91,10 @@ class PomodoroTimer {
     this.#timerEl
       .querySelector(".timer-pause")
       .addEventListener("click", this.#pause);
+
+    this.#currentMode = "work";
+
+    this.onModeChange = this.#callOnce(this.onModeChange);
 
     //1 pom = 30 min = 1800 seg
   }
@@ -167,16 +188,57 @@ class PomodoroTimer {
       .addEventListener("click", this.#pause);
   };
 
+  onModeChange(mode) {
+    if (mode === "work") {
+      if (this.#callbacks.onWorkStart) {
+        this.#callbacks.onWorkStart();
+      }
+    } else if (mode === "break") {
+      if (this.#callbacks.onBreakStart) {
+        this.#callbacks.onBreakStart();
+      }
+    }
+  }
+
+  #callOnce(func) {
+    //decorator
+    const localThis = decorated;
+    function decorated(...args) {
+      if (!localThis.alreadyCalled) {
+        localThis.alreadyCalled = true;
+        func.call(this, ...args);
+      }
+      return;
+    }
+    decorated.resetDecorator = function () {
+      localThis.alreadyCalled = false;
+    };
+    return decorated;
+  }
+
   //this is automatically set to instance and method is too since...
   tick = () => {
+    // this code is SHIT but it's working
+    if (this.#workTime <= 0) {
+      this.onModeChange("break");
+    }
+    if (this.#breakTime < 0) {
+      /*
+       this executes only once so I reset the decorator in order to allow the function to execute again, I execute it
+       right away and reset it again so that the if above can still make use of the decorator (because the code 
+       inside that one is called multiple times)
+       */
+      this.onModeChange.resetDecorator();
+      this.onModeChange("work");
+      this.onModeChange.resetDecorator();
+    }
+
     //update timer in GUI
     this.#updateTimeProgressBar();
 
     if (this.#workTime > 0) {
       this.#updateTimerEl(this.#workTime);
       this.#workTime--;
-
-      /*       console.log(this.#workTime); */
       return;
     }
 
@@ -200,7 +262,7 @@ class PomodoroTimer {
       percentage = this.#breakTime / 300;
     }
     percentage = percentage.toFixed(4);
-    console.log(percentage);
+    //console.log(percentage);
     this.#timerEl.querySelector(
       ".time-progress"
     ).style.transform = `scaleX(${percentage})`;
@@ -225,10 +287,3 @@ new App();
 // cuando terminen todos los pomodoros:
 // el botón stop podría cambiar a reset y volver al menú inicial
 // el botón pause se desactivaría
-
-//promisifying timeout
-function countDown(ms) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, ms);
-  });
-}
