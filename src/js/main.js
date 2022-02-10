@@ -29,11 +29,8 @@ class App {
   }
 
   onStopPomodoro() {
-    //     this.#initialMenuEl.classList.remove("initial-menu--hidden");
     this.#showElement(this.#initialMenuEl, 0.5);
     this.#hideElement(this.#timerContainerEl, 0);
-    /*     this.#initialMenuEl.style.display = 'block';
-    this.#initialMenuEl.style.opacity = '100%'; */
   }
   #hideElement(el, s) {
     //temporal, mirar video de jonas
@@ -283,7 +280,3 @@ class PomodoroTimer {
 }
 
 new App();
-
-// cuando terminen todos los pomodoros:
-// el botón stop podría cambiar a reset y volver al menú inicial
-// el botón pause se desactivaría
