@@ -1,3 +1,4 @@
+import './modal.js';
 class App {
   #form;
   #timeSelect;
@@ -71,12 +72,12 @@ class App {
   }
 
   changeToWork() {
-    this.#playStateAnimation("time to work!");
+    this.#playStateAnimation("Time to work!");
     //animation work
     this.#showGradient("work");
   }
   changeToBreak() {
-    this.#playStateAnimation("take a break!");
+    this.#playStateAnimation("Take a break!");
     //animation break
     this.#showGradient("break");
   }
@@ -89,6 +90,7 @@ class App {
   #playStateAnimation(stateMessage) {
     const stateEl = document.querySelector(".state-indicator");
     stateEl.textContent = stateMessage;
+    // trick
     stateEl.classList.remove("state-indicator--anim");
     stateEl.offsetWidth;
     stateEl.classList.add("state-indicator--anim");
@@ -163,6 +165,7 @@ class PomodoroTimer {
   }
 
   #skipInterval() {
+    console.log(this);
     if (this.#paused) {
       this.#resume();
     }
@@ -193,8 +196,7 @@ class PomodoroTimer {
 
   #finishPomodoro() {
     // update pomodoros completed e.g. from 1/4 -> 2/4
-
-    if (this.#pomodorosCount - (this.#currentPomodoro + 1) !== 0) {
+    if (this.#currentPomodoro === 0) {
       if (this.#callbacks.onFinish) {
         this.#callbacks.onFinish();
       }
@@ -318,7 +320,7 @@ class PomodoroTimer {
        inside that one is called multiple times)
        */
       /*       if (this.#currentPomodoro !== 0) { */
-      console.log(this.#currentPomodoro);
+/*       console.log(this.#currentPomodoro); */
       this.onModeChange.resetDecorator();
       this.onModeChange("work");
       this.onModeChange.resetDecorator();

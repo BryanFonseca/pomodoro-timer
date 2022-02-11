@@ -9,6 +9,9 @@
 :root {
   font-family: "ubuntu", sans-serif;
   color: #212529;
+  --main-color: #333;
+  --main-color-lighter: #444;
+  --light-gray: #eee;
 }
 
 :root * {
@@ -51,10 +54,6 @@ body {
   background-color: #999;
 }
 
-.time-selection-form {
-  background-color: #bbb;
-}
-
 .initial-menu {
   z-index: 5;
   position: fixed;
@@ -65,15 +64,16 @@ body {
 }
 
 .time-selection-form {
-  font-size: 2rem;
+  font-size: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5em;
   padding: 0.7em 1em;
-  border-radius: 0.3em;
+  /*   border-radius: 0.3em; */
 
   background: linear-gradient(to right, #f37335, #fdc830);
+  box-shadow: 0em 0em 2em 0.1em rgba(0, 0, 0, 30%);
   background-color: white;
 }
 
@@ -84,13 +84,13 @@ body {
 }
 
 .begin-button {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   padding: 0.45em 1.2em;
   text-transform: uppercase;
 }
 
 .time-selection-form select {
-  font-size: 1rem;
+  font-size: 1.4rem;
   padding: 0.15em 0.3em;
 }
 
@@ -139,6 +139,15 @@ ion-icon {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s;
+}
+
+.time-control-buttons > button:hover {
+  background-color: #ddd;
+}
+
+.time-control-buttons > button:active {
+  background-color: #ccc;
 }
 
 .timer-container-top {
@@ -170,12 +179,12 @@ select:hover {
   pointer-events: none;
 }
 
-.state-indicator--anim{
+.state-indicator--anim {
   animation: state-animation 3s forwards;
 }
 
 @keyframes state-animation {
-/*   0% {
+  /*   0% {
     transform: translate(-50%, -1000%);
   }
   30%,
@@ -189,7 +198,7 @@ select:hover {
     transform: translate(-50%, -1000%);
   } */
 
-/*   0% {
+  /*   0% {
     top: -10%;
   }
   30%,
@@ -215,4 +224,100 @@ select:hover {
   100% {
     transform: translate(-50%, -100vh);
   }
+}
+
+/*--------------------MODAL------------------- */
+.modal-info{
+  position: relative;
+  z-index: 10;
+}
+.invisible{
+  display: none;
+  opacity: 0%;
+}
+
+.modal{
+/*   position: relative; */
+  opacity: 100%;
+  transition: opacity 0.5s;
+/*   z-index: 10; */
+}
+
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-body{
+  position: fixed;
+  top: 50%;
+  right: 30%;
+  left: 30%;
+  padding: 2em 2.5em;
+  overflow: auto;
+  transform: translate(0, -50%);
+  border-radius: 0.9em;
+  background-color: var(--main-color);
+  color: var(--light-gray);
+}
+
+.modal-body h2{
+  margin-bottom: 0.8em;
+}
+
+.modal-body p{
+  line-height: 1.5;
+}
+
+.modal-close{
+  cursor: pointer;
+  border: none;
+}
+
+.modal-close{
+  position: absolute;
+  right: 3.5%;
+  top: 8%;
+  height: 0.9em;
+  width: 0.9em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  /*   border-radius: 50%; */
+  color: var(--mid-gray);
+  background-color: transparent;
+}
+
+.modal-close:hover{
+  color: #bbb;
+}
+
+.info-button{
+  position: absolute;
+  right: 0;
+  margin: 0.5em;
+/*   border-radius: 50%;
+  border: none; */
+}
+
+.github-profile-triangle {
+  position: absolute;
+  border-top: 7.5em solid #37392e;
+  /* 3B1C32 */
+  border-right: 7.5em solid transparent;
+}
+.github-profile-button {
+  position: absolute;
+  font-size: 3.9rem;
+  transform: translate(16%, 5%);
+  cursor: pointer;
+}
+.github-profile-button ion-icon {
+  color: #fff;
+  font-size: 3rem;
 }
