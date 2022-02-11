@@ -19,6 +19,7 @@
 }
 
 body {
+  position: relative;
   height: 100vh;
   transition: background 10s;
 }
@@ -128,6 +129,18 @@ ion-icon {
   }
 }
 
+@media (max-height: 28.1em) {
+  .timer-container{
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-height: 24.37em) {
+  .timer-container{
+    font-size: 0.7rem;
+  }
+}
+
 .timer-container--hidden {
   opacity: 0%;
 }
@@ -147,6 +160,12 @@ ion-icon {
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s;
+}
+
+@media (max-height: 28.1em) {
+  .time-control-buttons > button{
+    font-size: calc(1em * 1.6);
+  }
 }
 
 .time-control-buttons > button ion-icon {
@@ -193,58 +212,111 @@ select:hover {
 .state-indicator {
   z-index: 6;
   font-size: 5rem;
-  left: 50%;
+  left: 1%;
+  right: 1%;
+  text-align: center;
   top: 50%;
   position: fixed;
-  transform: translate(-50%, -1000%);
+  transform: translate(0, -50%);
   pointer-events: none;
 }
 
-.state-indicator--anim {
-  animation: state-animation 3s forwards;
+@keyframes state-animation {
+  0% {
+    transform: translate(0%, -100vh);
+  }
+  30%,
+  60% {
+    transform: translate(0%, -40vh);
+  }
+  50% {
+    transform: translate(0%, -40vh) scale(1.2);
+  }
+  100% {
+    transform: translate(0%, -100vh);
+  }
 }
 
-@keyframes state-animation {
-  /*   0% {
-    transform: translate(-50%, -1000%);
+@media (max-width: 65.6em) {
+  @keyframes state-animation {
+    0% {
+      transform: translate(0%, -100vh);
+    }
+    30%,
+    60% {
+      transform: translate(0%, -40vh);
+    }
+    50% {
+      transform: translate(0%, -40vh) scale(1.2);
+    }
+    100% {
+      transform: translate(0%, -100vh);
+    }
   }
-  30%,
-  60% {
-    transform: translate(-50%, -400%);
+  .state-indicator {
+    font-size: 4rem;
   }
-  50% {
-    transform: translate(-50%, -400%) scale(1.2);
-  }
-  100% {
-    transform: translate(-50%, -1000%);
-  } */
+}
 
-  /*   0% {
-    top: -10%;
+@media (max-width: 52.9em) {
+  .state-indicator {
+    font-size: 3rem;
   }
-  30%,
-  60% {
-    top: 15%;
+}
+
+@media (max-width: 40em) {
+  @keyframes state-animation {
+    0% {
+      transform: translate(0%, -100vh);
+    }
+    30%,
+    60% {
+      transform: translate(0%, -33vh);
+    }
+    50% {
+      transform: translate(0%, -33vh) scale(1.2);
+    }
+    100% {
+      transform: translate(0%, -100vh);
+    }
   }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
+  .state-indicator {
+    font-size: 2.5rem;
   }
-  100% {
-    top: -10%;
-  } */
-  0% {
-    transform: translate(-50%, -100vh);
+}
+
+@media (max-height: 28.1em) {
+  @keyframes state-animation {
+    0% {
+      transform: translate(0%, -100vh);
+    }
+    30%,
+    60% {
+      transform: translate(0%, -33vh);
+    }
+    50% {
+      transform: translate(0%, -33vh) scale(1.2);
+    }
+    100% {
+      transform: translate(0%, -100vh);
+    }
   }
-  30%,
-  60% {
-    transform: translate(-50%, -43vh);
+}
+
+/* @media (max-width: 33.43em) {
+  .state-indicator{
+    font-size: 2.3rem;
   }
-  50% {
-    transform: translate(-50%, -43vh) scale(1.2);
+}
+
+@media (max-width: 29.06em) {
+  .state-indicator{
+    font-size: 1.8rem;
   }
-  100% {
-    transform: translate(-50%, -100vh);
-  }
+} */
+
+.state-indicator--anim {
+  animation: state-animation 3s forwards;
 }
 
 /*--------------------MODAL------------------- */
@@ -284,6 +356,27 @@ select:hover {
   border-radius: 0.9em;
   background-color: var(--main-color);
   color: var(--light-gray);
+}
+
+@media (max-width: 60.1em) {
+  .modal-body{
+    left: 20%;
+    right: 20%;
+  }
+}
+
+@media (max-width: 46.87em) {
+  .modal-body{
+    left: 10%;
+    right: 10%;
+  }
+}
+
+@media (max-width: 35em) {
+  .modal-body{
+    left: 3%;
+    right: 3%;
+  }
 }
 
 .modal-body h2 {
