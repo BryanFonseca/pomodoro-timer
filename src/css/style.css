@@ -23,6 +23,10 @@ body {
   transition: background 10s;
 }
 
+ion-icon {
+  font-size: 1.8rem;
+}
+
 .work-gradient,
 .break-gradient {
   position: fixed;
@@ -100,6 +104,7 @@ body {
 
 /* TODO: structure the code in such a way that this selector defines the ems value so that the whole component can be easily resized */
 .timer-container {
+  font-size: 1rem;
   z-index: 4;
   position: fixed;
   top: 50%;
@@ -107,13 +112,61 @@ body {
   transform: translate(-50%, -50%);
   opacity: 100%;
 }
+@media (max-width: 50.71em) {
+  .timer-container {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 40.14em) {
+  .timer-container {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 29em) {
+  .timer-container {
+    font-size: 0.6rem;
+  }
+}
 
 .timer-container--hidden {
   opacity: 0%;
 }
 
+.timer-container-top {
+  display: flex;
+  justify-content: space-between;
+}
+
 .time {
-  font-size: 15rem;
+  font-size: 15em;
+}
+
+.time-control-buttons > button {
+  font-size: calc(1em * 1.4);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.time-control-buttons > button ion-icon {
+  font-size: 1.2em;
+}
+
+.timer-container button {
+  border: none;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  padding: 0.25em;
+}
+
+.pomodoro-count {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  font-size: 1.4em;
+  padding: 0.1em 0.5em;
+  border-radius: 10em;
 }
 
 .time-progress {
@@ -124,24 +177,6 @@ body {
   transition: transform 0.1s;
 }
 
-ion-icon {
-  font-size: 1.8rem;
-}
-
-.timer-container button {
-  border: none;
-  margin-right: 1em;
-  border-radius: 50%;
-  padding: 0.35em;
-}
-
-.time-control-buttons > button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s;
-}
-
 .time-control-buttons > button:hover {
   background-color: #ddd;
 }
@@ -150,23 +185,9 @@ ion-icon {
   background-color: #ccc;
 }
 
-.timer-container-top {
-  display: flex;
-  justify-content: space-between;
-}
-
 button:hover,
 select:hover {
   cursor: pointer;
-}
-
-.pomodoro-count {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  font-size: 1.4rem;
-  padding: 0.1em 0.5em;
-  border-radius: 10em;
 }
 
 .state-indicator {
@@ -227,23 +248,23 @@ select:hover {
 }
 
 /*--------------------MODAL------------------- */
-.modal-info{
+.modal-info {
   position: relative;
   z-index: 10;
 }
-.invisible{
+.invisible {
   display: none;
   opacity: 0%;
 }
 
-.modal{
-/*   position: relative; */
+.modal {
+  /*   position: relative; */
   opacity: 100%;
   transition: opacity 0.5s;
-/*   z-index: 10; */
+  /*   z-index: 10; */
 }
 
-.modal-backdrop{
+.modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -252,7 +273,7 @@ select:hover {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal-body{
+.modal-body {
   position: fixed;
   top: 50%;
   right: 30%;
@@ -265,20 +286,20 @@ select:hover {
   color: var(--light-gray);
 }
 
-.modal-body h2{
+.modal-body h2 {
   margin-bottom: 0.8em;
 }
 
-.modal-body p{
+.modal-body p {
   line-height: 1.5;
 }
 
-.modal-close{
+.modal-close {
   cursor: pointer;
   border: none;
 }
 
-.modal-close{
+.modal-close {
   position: absolute;
   right: 3.5%;
   top: 8%;
@@ -293,15 +314,15 @@ select:hover {
   background-color: transparent;
 }
 
-.modal-close:hover{
+.modal-close:hover {
   color: #bbb;
 }
 
-.info-button{
+.info-button {
   position: absolute;
   right: 0;
   margin: 0.5em;
-/*   border-radius: 50%;
+  /*   border-radius: 50%;
   border: none; */
 }
 
