@@ -12,7 +12,6 @@
 }
 
 :root * {
-  color: inherit;
   font-family: inherit;
 }
 
@@ -159,4 +158,61 @@ select:hover {
   font-size: 1.4rem;
   padding: 0.1em 0.5em;
   border-radius: 10em;
+}
+
+.state-indicator {
+  z-index: 6;
+  font-size: 5rem;
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  transform: translate(-50%, -1000%);
+  pointer-events: none;
+}
+
+.state-indicator--anim{
+  animation: state-animation 3s forwards;
+}
+
+@keyframes state-animation {
+/*   0% {
+    transform: translate(-50%, -1000%);
+  }
+  30%,
+  60% {
+    transform: translate(-50%, -400%);
+  }
+  50% {
+    transform: translate(-50%, -400%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -1000%);
+  } */
+
+/*   0% {
+    top: -10%;
+  }
+  30%,
+  60% {
+    top: 15%;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    top: -10%;
+  } */
+  0% {
+    transform: translate(-50%, -100vh);
+  }
+  30%,
+  60% {
+    transform: translate(-50%, -43vh);
+  }
+  50% {
+    transform: translate(-50%, -43vh) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -100vh);
+  }
 }

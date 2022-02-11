@@ -13,6 +13,7 @@ class App {
       onStop: this.onStopPomodoro.bind(this),
       onWorkStart: this.changeToWork.bind(this),
       onBreakStart: this.changeToBreak.bind(this),
+      onFinish: this.finishSession.bind(this),
     });
 
     this.#form.addEventListener("submit", this.startPomodoro.bind(this));
@@ -20,6 +21,9 @@ class App {
     this.#hideElement(this.#timerContainerEl, 0);
   }
   startPomodoro(e) {
+    // show first animation
+    this.changeToWork();
+    /*     this.#playStateAnimation('work'); */
     e.preventDefault();
 
     this.#hideElement(this.#initialMenuEl, 0.5);
@@ -29,6 +33,7 @@ class App {
   }
 
   onStopPomodoro() {
+    this.#showGradient();
     this.#showElement(this.#initialMenuEl, 0.5);
     this.#hideElement(this.#timerContainerEl, 0);
   }
@@ -36,14 +41,21 @@ class App {
     //temporal, mirar video de jonas
     el.style.transitionDuration = `${s}s`;
     el.style.opacity = "0%";
-    new Promise(function (resolve) {
+    el.style.pointerEvents = 'none';
+/*     new Promise(function (resolve) {
       setTimeout(resolve, s * 1000);
-    }).then(() => (el.style.display = "none"));
+    }).then(() => (el.style.display = "none")); */
   }
 
   #showElement(el, s) {
     el.style.display = "block";
+    el.style.pointerEvents = 'initial';
     el.style.transitionDuration = `${s}s`;
+
+    // this forces rendering
+    // el.offsetWidth
+    el.style.opacity = '100%';
+
     new Promise(function (resolve) {
       setTimeout(resolve, 0);
     }).then(() => {
@@ -58,11 +70,28 @@ class App {
     document.querySelector(`.${gradientName}-gradient`).style.opacity = "1";
   }
 
-  changeToWork(){
-    this.#showGradient('work');
+  changeToWork() {
+    this.#playStateAnimation("time to work!");
+    //animation work
+    this.#showGradient("work");
   }
-  changeToBreak(){
-    this.#showGradient('break');
+  changeToBreak() {
+    this.#playStateAnimation("take a break!");
+    //animation break
+    this.#showGradient("break");
+  }
+
+  finishSession() {
+    console.log("finally");
+    this.#playStateAnimation("Session Finished!");
+  }
+
+  #playStateAnimation(stateMessage) {
+    const stateEl = document.querySelector(".state-indicator");
+    stateEl.textContent = stateMessage;
+    stateEl.classList.remove("state-indicator--anim");
+    stateEl.offsetWidth;
+    stateEl.classList.add("state-indicator--anim");
   }
 }
 
@@ -72,9 +101,10 @@ class PomodoroTimer {
   #timerID;
   #timerEl;
   #currentPomodoro;
-  #initialPomodoro;
+  #pomodorosCount;
   #callbacks;
   #currentMode;
+  #paused;
 
   constructor(callbacks) {
     if (callbacks) {
@@ -89,18 +119,32 @@ class PomodoroTimer {
       .querySelector(".timer-pause")
       .addEventListener("click", this.#pause);
 
+    this.#timerEl
+      .querySelector(".timer-skip")
+      .addEventListener("click", this.#skipInterval.bind(this));
+
     this.#currentMode = "work";
 
     this.onModeChange = this.#callOnce(this.onModeChange);
 
+    this.#paused = false;
     //1 pom = 30 min = 1800 seg
   }
 
+  #init(){
+    this.#timerEl.querySelector(".timer-pause").disabled = false;
+    this.#timerEl.querySelector(".timer-skip").disabled = false;
+    this.#timerEl.querySelector(".timer-stop").innerHTML = `
+      <ion-icon name="stop"></ion-icon>
+    `;
+  }
+
   start(time) {
+    this.#init();
     //     this.#stop();
-    this.#initialPomodoro = this.#currentPomodoro = 2 * time;
+    this.#pomodorosCount = this.#currentPomodoro = 2 * time;
     this.#timerEl.querySelector(".pomodoro-count").textContent = `1 / ${
-      this.#initialPomodoro
+      this.#pomodorosCount
     }`;
     this.#startPomodoro();
   }
@@ -109,8 +153,8 @@ class PomodoroTimer {
     if (!this.#currentPomodoro) return console.log("finished all pomodoros");
 
     const pomodoroFraction = `${
-      this.#initialPomodoro - (this.#currentPomodoro - 1)
-    } / ${this.#initialPomodoro}`;
+      this.#pomodorosCount - (this.#currentPomodoro - 1)
+    } / ${this.#pomodorosCount}`;
     this.#timerEl.querySelector(".pomodoro-count").textContent =
       pomodoroFraction;
     this.#resetPomodoroTimes();
@@ -118,8 +162,46 @@ class PomodoroTimer {
     this.#startTicking();
   }
 
+  #skipInterval() {
+    if (this.#paused) {
+      this.#resume();
+    }
+    if (this.#workTime) {
+      this.#workTime = 0;
+    } else if (this.#breakTime) {
+      if (
+        this.#pomodorosCount ===
+        this.#pomodorosCount - this.#currentPomodoro
+      ) {
+        this.#updateTimerEl(0);
+      }
+      this.#breakTime = -1;
+    }
+    this.tick();
+  }
+
+  #finishAllPomodoros() {
+    const pauseButton = this.#timerEl.querySelector(".timer-pause");
+    const skipButton = this.#timerEl.querySelector(".timer-skip");
+    pauseButton.disabled = true;
+    pauseButton.querySelector('ion-icon').style.color = 'inherit';
+    skipButton.disabled = true;
+    this.#timerEl.querySelector(".timer-stop").innerHTML = `
+      <ion-icon name="reload-outline"></ion-icon>
+    `;
+  }
+
   #finishPomodoro() {
     // update pomodoros completed e.g. from 1/4 -> 2/4
+
+    if (this.#pomodorosCount - (this.#currentPomodoro + 1) !== 0) {
+      if (this.#callbacks.onFinish) {
+        this.#callbacks.onFinish();
+      }
+
+      this.#finishAllPomodoros();
+    }
+
     console.log("terminó uno");
     clearInterval(this.#timerID);
     this.#startPomodoro();
@@ -140,6 +222,11 @@ class PomodoroTimer {
     // reset time in GUI to 25:00
     // reset fraction of pomodoros completed
 
+    if(this.#paused){
+      this.#resume();
+/*       this.#timerEl.querySelector('.timer-pause').click(); */
+    }
+
     if (this.#callbacks.onStop) {
       this.#callbacks.onStop();
     }
@@ -149,11 +236,13 @@ class PomodoroTimer {
     this.#resetPomodoroTimes();
     this.#updateTimeProgressBar();
 
+
     // cuando se para el timer de manera forzosa debería mostrarse nuevamente el formulario para elegir tiempo
     // usar el patron de ballbacks
   };
 
   #pause = () => {
+    this.#paused = true;
     //change button to play
 
     this.#timerEl.querySelector(".timer-pause").innerHTML = `
@@ -171,6 +260,7 @@ class PomodoroTimer {
   };
 
   #resume = () => {
+    this.#paused = false;
     this.#timerEl.querySelector(".timer-pause").innerHTML = `
       <ion-icon name="pause"></ion-icon>
     `;
@@ -187,10 +277,12 @@ class PomodoroTimer {
 
   onModeChange(mode) {
     if (mode === "work") {
+      // gatillarse animación work
       if (this.#callbacks.onWorkStart) {
         this.#callbacks.onWorkStart();
       }
     } else if (mode === "break") {
+      // gatillarse animación break
       if (this.#callbacks.onBreakStart) {
         this.#callbacks.onBreakStart();
       }
@@ -225,9 +317,12 @@ class PomodoroTimer {
        right away and reset it again so that the if above can still make use of the decorator (because the code 
        inside that one is called multiple times)
        */
+      /*       if (this.#currentPomodoro !== 0) { */
+      console.log(this.#currentPomodoro);
       this.onModeChange.resetDecorator();
       this.onModeChange("work");
       this.onModeChange.resetDecorator();
+      /*       } */
     }
 
     //update timer in GUI
