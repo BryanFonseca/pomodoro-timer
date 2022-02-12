@@ -64,20 +64,20 @@ The timer could've been better implemented so that it would've been easier to tr
 
 My decorator:
 ```js
-callOnce(func) {
-    const localThis = decorated;
-    function decorated(...args) {
-      if (!localThis.alreadyCalled) {
-        localThis.alreadyCalled = true;
-        func.call(this, ...args);
-      }
-      return;
+function callOnce(func) {
+  const localThis = decorated;
+  function decorated(...args) {
+    if (!localThis.alreadyCalled) {
+      localThis.alreadyCalled = true;
+      func.call(this, ...args);
     }
-    decorated.resetDecorator = function () {
-      localThis.alreadyCalled = false;
-    };
-    return decorated;
+    return;
   }
+  decorated.resetDecorator = function () {
+    localThis.alreadyCalled = false;
+  };
+  return decorated;
+}
 ```
 
 ### Odds and Ends
