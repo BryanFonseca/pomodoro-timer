@@ -8,6 +8,14 @@ The architectural pattern I used for this project is called **spaguetti** 😔�
 
 Anyways, that's not the point, I was just trying to use CI with Netlify and Bundling with Parcel so I started coding right away without much planning.
 
+## What does it look like?
+It's deployed on Netlify:
+https://pomodorification.netlify.app/
+
+![screenshot 1](./screenshots/1.PNG)
+
+![screenshot 2](./screenshots/2.PNG)
+
 ## What did I learn from this project?
 ### `z-index` and `opacity`
 I ran into a situation where changing the opacity of an element with a `z-index` applied to any value other than 0 resulted in something very confusing.
@@ -45,3 +53,30 @@ element.classList.add("animate");
 This instructs the browser to recalculate an element’s width, thus causing a reflow in the DOM. The reflow event triggers the animation to run from the start.
 
 This may have performance implications, so the basic advice is to try to use this "trick" as infrequently as possible.
+
+### Decorator
+The way I implemented my timer led me to a situation where a function was called multiple times and I just needed it to to trigger an event once, not every time the function was called, so I used a decorator with a reset function because I actually needed to trigger two events inside the same function.
+
+The timer could've been better implemented so that it would've been easier to trigger events, anyways, my solution worked (at least for two events in such a situation) and it's the first time I find an use case for a decorator.
+
+My decorator:
+```js
+callOnce(func) {
+    const localThis = decorated;
+    function decorated(...args) {
+      if (!localThis.alreadyCalled) {
+        localThis.alreadyCalled = true;
+        func.call(this, ...args);
+      }
+      return;
+    }
+    decorated.resetDecorator = function () {
+      localThis.alreadyCalled = false;
+    };
+    return decorated;
+  }
+```
+
+### Odds and Ends
+- It's possible to use viewport units (vh and vw) in the `transform` property, that was pretty useful when making the animation based on the viewport size with 
+`transform`, my other option was animating the `top` property but that's quite inneficient.
