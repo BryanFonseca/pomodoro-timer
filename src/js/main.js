@@ -356,9 +356,9 @@ class PomodoroTimer {
       percentage = this.#breakTime / 300;
     }
     percentage = percentage.toFixed(4);
-    //console.log(percentage);
+    console.log(percentage);
     this.#timerEl.querySelector(
-      ".time-progress"
+      ".progress__bar__inner"
     ).style.transform = `scaleX(${percentage})`;
   }
 

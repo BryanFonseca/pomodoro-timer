@@ -83,7 +83,7 @@ ion-icon {
 }
 
 @media (max-width: 60.6em) {
-  .time-selection-form{
+  .time-selection-form {
     font-size: 2.5rem;
   }
 }
@@ -142,13 +142,13 @@ ion-icon {
 }
 
 @media (max-height: 28.1em) {
-  .timer-container{
+  .timer-container {
     font-size: 0.8rem;
   }
 }
 
 @media (max-height: 24.37em) {
-  .timer-container{
+  .timer-container {
     font-size: 0.7rem;
   }
 }
@@ -175,7 +175,7 @@ ion-icon {
 }
 
 @media (max-height: 28.1em) {
-  .time-control-buttons > button{
+  .time-control-buttons > button {
     font-size: calc(1em * 1.6);
   }
 }
@@ -198,14 +198,6 @@ ion-icon {
   font-size: 1.4em;
   padding: 0.1em 0.5em;
   border-radius: 10em;
-}
-
-.time-progress {
-  height: 0.15em;
-  background-color: #212529;
-  transform: scaleX(1);
-  transform-origin: left;
-  transition: transform 0.1s;
 }
 
 .time-control-buttons > button:hover {
@@ -371,21 +363,21 @@ select:hover {
 }
 
 @media (max-width: 60.1em) {
-  .modal-body{
+  .modal-body {
     left: 20%;
     right: 20%;
   }
 }
 
 @media (max-width: 46.87em) {
-  .modal-body{
+  .modal-body {
     left: 10%;
     right: 10%;
   }
 }
 
 @media (max-width: 35em) {
-  .modal-body{
+  .modal-body {
     left: 3%;
     right: 3%;
   }
@@ -446,4 +438,36 @@ select:hover {
 .github-profile-button ion-icon {
   color: #fff;
   font-size: 3rem;
+}
+
+/* Hacer que la barra de progreso lo parezca usando algo parecido a la que hice en el courses platform layout */
+
+.progress__bar {
+  position: relative;
+  min-height: 0.15em;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 60%),
+    rgba(255, 255, 255, 60%) 3px,
+    rgba(200, 200, 200, 30%) 6px,
+    rgba(200, 200, 200, 30%) 12px
+  );
+
+/*   background-color: rgba(255, 255, 255, 50%); */
+  /* #777 */
+}
+
+.progress__bar__inner {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 70%);
+/*   border: 2px solid rgba(0, 0, 0, 20%); */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transform-origin: left;
+
+  /* Percentage */
+  width: 100%;
+  transform: scaleX(1);
+  transition: transform 0.35s;
 }
