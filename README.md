@@ -12,9 +12,12 @@ Anyways, that's not the point, I was just trying to use CI with Netlify and Bund
 It's deployed on Netlify:
 https://pomodorification.netlify.app/
 
-![screenshot 1](./screenshots/1.PNG)
-
-![screenshot 2](./screenshots/2.PNG)
+<p float="left">
+  <img src="./screenshots/4.png" width="500" />
+  <img src="./screenshots/1.png" width="500" />
+  <img src="./screenshots/2.png" width="500" /> 
+  <img src="./screenshots/3.png" width="500" />  
+</p>
 
 ## What did I learn from this project?
 ### `z-index` and `opacity`
@@ -61,20 +64,20 @@ The timer could've been better implemented so that it would've been easier to tr
 
 My decorator:
 ```js
-callOnce(func) {
-    const localThis = decorated;
-    function decorated(...args) {
-      if (!localThis.alreadyCalled) {
-        localThis.alreadyCalled = true;
-        func.call(this, ...args);
-      }
-      return;
+function callOnce(func) {
+  const localThis = decorated;
+  function decorated(...args) {
+    if (!localThis.alreadyCalled) {
+      localThis.alreadyCalled = true;
+      func.call(this, ...args);
     }
-    decorated.resetDecorator = function () {
-      localThis.alreadyCalled = false;
-    };
-    return decorated;
+    return;
   }
+  decorated.resetDecorator = function () {
+    localThis.alreadyCalled = false;
+  };
+  return decorated;
+}
 ```
 
 ### Odds and Ends
