@@ -320,7 +320,6 @@ class PomodoroTimer {
        inside that one is called multiple times)
        */
       /*       if (this.#currentPomodoro !== 0) { */
-/*       console.log(this.#currentPomodoro); */
       this.onModeChange.resetDecorator();
       this.onModeChange("work");
       this.onModeChange.resetDecorator();
@@ -356,7 +355,6 @@ class PomodoroTimer {
       percentage = this.#breakTime / 300;
     }
     percentage = percentage.toFixed(4);
-    console.log(percentage);
     this.#timerEl.querySelector(
       ".progress__bar__inner"
     ).style.transform = `scaleX(${percentage})`;
